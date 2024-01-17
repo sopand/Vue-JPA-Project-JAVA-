@@ -14,14 +14,15 @@ import com.zaxxer.hikari.HikariDataSource;
 @PropertySource("classpath:/application.properties")
 public class DataBaseConfig {
 	
-	   @Bean
-	    @ConfigurationProperties(prefix = "spring.datasource.hikari")
-	    public HikariConfig hikariConfig() {
-	        return new HikariConfig();
-	    }
+	@Bean
+    @ConfigurationProperties("spring.datasource.hikari")
+    public HikariConfig hikariConfig() {
+        return new HikariConfig();
+    }
 
-	    @Bean
-	    public DataSource dataSource() {
-	        return new HikariDataSource(hikariConfig());
-	    }
+    @Bean
+    public DataSource dataSource(HikariConfig hikariConfig) {
+        HikariDataSource dataSource = new HikariDataSource(hikariConfig);
+        return dataSource;
+    }
 }

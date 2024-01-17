@@ -1,31 +1,30 @@
 package com.project.team.entity;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 @Getter
-@SuperBuilder
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class BaseTimeEntity {
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
+public class BaseTimeEntity {
 
-	@Column(name="create_date")
-	@CreationTimestamp
-	private Timestamp createDate;
-	
-	@Column(name="update_date")
-	@UpdateTimestamp
-	private Timestamp updateDate;
-	
-	
-
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="create_date")
+    private LocalDateTime createDate;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @UpdateTimestamp
+    @Column(name="update_date")
+    private LocalDateTime updateDate;
 }

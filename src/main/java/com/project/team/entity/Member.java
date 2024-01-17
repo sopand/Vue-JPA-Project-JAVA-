@@ -1,7 +1,5 @@
 package com.project.team.entity;
 
-import java.security.Timestamp;
-
 import com.project.team.util.FlagYN;
 
 import jakarta.persistence.Column;
@@ -13,14 +11,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 @Getter
-@SuperBuilder
 @NoArgsConstructor(access=AccessLevel.PROTECTED)
-@Entity(name="member")
+@Entity
 @Table(name="tb_member")
 public class Member extends BaseTimeEntity{
 	
@@ -29,20 +26,23 @@ public class Member extends BaseTimeEntity{
 	@Column(name="member_sid")
 	private Long memberSid;
 	
-	@Column(name = "email")
 	private String email;
 	
-	@Column(name = "password")
 	private String password;
 	
-	@Column(name= "name")
 	private String name;
 	
+	@Column(name="del_yn")
 	@Enumerated(EnumType.STRING)
-	private FlagYN del_yn;
+	private FlagYN delYn;
 	
-	@Column(name = "delete_date")
-	private Timestamp deleteDate;
+	@Builder
+	public Member(String email,String password,String name,FlagYN delYn) {
+		this.email=email;
+		this.password=password;
+		this.name=name;
+		this.delYn=delYn;
+	}
 	
 
 }

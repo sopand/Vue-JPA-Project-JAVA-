@@ -10,8 +10,8 @@ import lombok.RequiredArgsConstructor;
 
 
 @OpenAPIDefinition(
-        info = @Info(title = "게시판 Boot+Vue.js WEB",
-                description = " 게시판 Boot+Vue.js REST API명세",
+        info = @Info(title = "Project 구하기",
+                description = " Project 팀원 or 팀 구하기 API명세",
                 version = "v1"))
 @RequiredArgsConstructor
 @Configuration
