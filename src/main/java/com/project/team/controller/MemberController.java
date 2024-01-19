@@ -1,7 +1,7 @@
 package com.project.team.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +19,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
+@CrossOrigin(origins = "*")
 @RestController
 @Tag(name="유저 API",description ="유저 데이터 조작 API")
 @RequestMapping("/api/member")
@@ -40,11 +41,11 @@ public class MemberController {
 		return ResponseEntity.ok(result);
 	}
 	
-	@GetMapping("/login")
+	@PostMapping("/login")
 	@Operation(summary = "회원 로그인")
 	@ApiResponse(responseCode = "200",description = "유저 로그인 성공")
 	@ApiResponse(responseCode = "400",description = "유저 로그인 실패")
-	public ResponseEntity<ResResult> memberFind(ReqMemberLogin reqData,HttpServletRequest req){
+	public ResponseEntity<ResResult> memberLogin(@RequestBody ReqMemberLogin reqData,HttpServletRequest req){
 		ResResult result=memberSRV.memberLogin(reqData);
 		if(!result.getSuccess()) {
 			return ResponseEntity.status(400).body(result);
@@ -52,6 +53,22 @@ public class MemberController {
 		HttpSession session=req.getSession();
 		session.setAttribute("member_sid",(Long)result.getData());
 		return ResponseEntity.ok(result);
+	}
+	
+	@PostMapping("/logout")
+	@Operation(summary = "회원 로그아웃")
+	@ApiResponse(responseCode = "200" , description = "로그아웃 완료")
+	@ApiResponse(responseCode = "400" , description = "로그아웃 실패")
+	public ResponseEntity<ResResult> memberLogout(HttpServletRequest req){
+		HttpSession session=req.getSession(false);
+		
+		if(session!=null) {
+			session.removeAttribute("member_sid");
+			session.invalidate();
+		}
+		
+		return ResponseEntity.ok(ResResult.builder().success(true).message("로그아웃이 완료되었습니다").build()
+				);
 	}
 	
 	
