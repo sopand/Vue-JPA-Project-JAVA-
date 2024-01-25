@@ -26,8 +26,10 @@ public class MemberService {
 		if(existingMember!=null) {
 			return ResResult.builder().success(false).message("기존에 존재하는 이메일입니다.").build();
 		}
-		Member joinData = Member.builder().email(reqData.getEmail())
-				.password(passwordEncoder.encode(reqData.getPassword())).name(reqData.getName()).delYn(FlagYN.N)
+		Member joinData = Member.builder()
+				.email(reqData.getEmail())
+				.password(passwordEncoder.encode(reqData.getPassword()))
+				.name(reqData.getName()).delYn(FlagYN.N)
 				.build();
 		
 		Member saveMember = memberRepo.save(joinData);

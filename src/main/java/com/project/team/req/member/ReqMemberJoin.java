@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 public class ReqMemberJoin {
 	
-	
 	@Schema(description = "이메일 최대 30자까지",requiredMode =RequiredMode.REQUIRED)
 	private String email;
 	
