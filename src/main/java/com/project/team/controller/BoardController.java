@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.team.entity.Member;
 import com.project.team.req.board.ReqBoardInsert;
 import com.project.team.req.board.ReqImageUpload;
 import com.project.team.res.ResResult;
@@ -29,7 +30,7 @@ public class BoardController {
 	private final BoardService boardSRV;
 	
 	@PostMapping(value="/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ResResult> imageUpload(@ModelAttribute ReqImageUpload reqData) throws IOException{
+	public ResponseEntity<ResResult> imageUpload( @ModelAttribute ReqImageUpload reqData) throws IOException{
 		String url=boardSRV.imageUpload(reqData);
 		ResResult result=ResResult.builder()
 				.success(true)
@@ -37,11 +38,13 @@ public class BoardController {
 				.message("이미지 업로드 완료")
 				.build();
 		return ResponseEntity.ok(result);
-		
 	}
-	@LoginCheck
+	
+	
+	
 	@PostMapping(value="/create")
-	public ResponseEntity<ResResult> insertBoard(ReqBoardInsert reqData){
+	public ResponseEntity<ResResult> insertBoard(@LoginCheck Member member, ReqBoardInsert reqData){
+		System.out.println("오냐");
 		ResResult result=boardSRV.boardInsert(reqData);
 		
 	

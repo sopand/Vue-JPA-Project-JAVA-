@@ -14,10 +14,12 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @NoArgsConstructor(access=AccessLevel.PROTECTED)
 @Entity
+@ToString
 @Table(name="tb_member")
 public class Member extends BaseTimeEntity{
 	
@@ -37,12 +39,13 @@ public class Member extends BaseTimeEntity{
 	private FlagYN delYn;
 	
 	@Builder
-	public Member(String email,String password,String name,FlagYN delYn) {
-		this.email=email;
-		this.password=password;
-		this.name=name;
-		this.delYn=delYn;
-	}
+    public Member(Long memberSid, String email, String password, String name, FlagYN delYn) {
+        this.memberSid = memberSid;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.delYn = delYn;
+    }
 	
 
 }

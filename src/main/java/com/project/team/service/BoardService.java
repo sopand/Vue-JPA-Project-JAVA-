@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import com.project.team.entity.Board;
 import com.project.team.entity.BoardRepository;
+import com.project.team.entity.Member;
+import com.project.team.entity.MemberRepository;
 import com.project.team.req.board.ReqBoardInsert;
 import com.project.team.req.board.ReqImageUpload;
 import com.project.team.res.ResResult;
@@ -23,6 +26,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BoardService {
 	private final BoardRepository boardRepo;
+	
+	private final MemberRepository memberRepo;
 	
 	@Value("${upload.directory}")
 	private String UPLOAD_DIR;
@@ -38,8 +43,7 @@ public class BoardService {
 	}
 	
 	public ResResult boardInsert(ReqBoardInsert reqData) {
-		
-		
+		System.out.println("오냐2");
 		
 		Board newBoard=Board.builder()
 				.category(reqData.getCategory())
