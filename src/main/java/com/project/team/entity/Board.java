@@ -32,8 +32,7 @@ public class Board extends BaseTimeEntity{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long boardSid;
 	
-	@Enumerated(EnumType.STRING)
-	private BoardCategory category;
+	private String category;
 	
 	@ManyToOne
 	@JoinColumn(name = "member_sid")

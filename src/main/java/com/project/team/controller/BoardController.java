@@ -1,7 +1,6 @@
 package com.project.team.controller;
 
 import java.io.IOException;
-import java.nio.Buffer;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.team.req.board.ReqBoardInsert;
 import com.project.team.req.board.ReqImageUpload;
 import com.project.team.res.ResResult;
 import com.project.team.service.BoardService;
+import com.project.team.util.LoginCheck;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,14 @@ public class BoardController {
 				.build();
 		return ResponseEntity.ok(result);
 		
+	}
+	@LoginCheck
+	@PostMapping(value="/create")
+	public ResponseEntity<ResResult> insertBoard(ReqBoardInsert reqData){
+		ResResult result=boardSRV.boardInsert(reqData);
+		
+	
+		return ResponseEntity.ok(result);
 	}
 
 }

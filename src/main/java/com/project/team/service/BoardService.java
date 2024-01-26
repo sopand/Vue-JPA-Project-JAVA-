@@ -15,8 +15,8 @@ import com.project.team.entity.BoardRepository;
 import com.project.team.req.board.ReqBoardInsert;
 import com.project.team.req.board.ReqImageUpload;
 import com.project.team.res.ResResult;
-import com.project.team.util.BoardCategory;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -27,6 +27,7 @@ public class BoardService {
 	@Value("${upload.directory}")
 	private String UPLOAD_DIR;
 	
+	@Transactional
 	public String imageUpload(ReqImageUpload reqData) throws IOException {
 		 String fileName = UUID.randomUUID().toString() + "_" + reqData.getUploadFile().getOriginalFilename();
          Path filePath = Path.of(UPLOAD_DIR + fileName);
@@ -37,9 +38,11 @@ public class BoardService {
 	}
 	
 	public ResResult boardInsert(ReqBoardInsert reqData) {
-			
+		
+		
+		
 		Board newBoard=Board.builder()
-				.category(BoardCategory.of(reqData.getCategory()))
+				.category(reqData.getCategory())
 				.title(reqData.getTitle())
 				.content(reqData.getContent())
 				.build();
