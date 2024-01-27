@@ -44,10 +44,9 @@ public class BoardController {
 	
 	@PostMapping(value="/create")
 	public ResponseEntity<ResResult> insertBoard(@LoginCheck Member member, ReqBoardInsert reqData){
-		System.out.println("오냐");
-		ResResult result=boardSRV.boardInsert(reqData);
+		ResResult result=boardSRV.boardInsert(reqData,member);
 		
-	
+		
 		return ResponseEntity.ok(result);
 	}
 

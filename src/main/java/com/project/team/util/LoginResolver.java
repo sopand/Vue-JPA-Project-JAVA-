@@ -33,7 +33,10 @@ public class LoginResolver implements HandlerMethodArgumentResolver{
         }
         
         Long memberSid=(Long)session.getAttribute("member_sid");
-        
-        return memberRepo.findById(memberSid).get();
+        Member findMember= memberRepo.findById(memberSid).orElse(null);
+        if(findMember == null) {
+        	throw new RuntimeException("로그인 세션에 해당하는 유저 정보가 없습니다");
+        }
+        return findMember;
     }
 }
