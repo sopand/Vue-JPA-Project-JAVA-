@@ -17,7 +17,10 @@ import com.project.team.res.ResResult;
 import com.project.team.service.BoardService;
 import com.project.team.util.LoginCheck;
 
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @CrossOrigin(origins = "*")
@@ -43,7 +46,7 @@ public class BoardController {
 	
 	
 	@PostMapping(value="/create")
-	public ResponseEntity<ResResult> insertBoard(@LoginCheck Member member, ReqBoardInsert reqData){
+	public ResponseEntity<ResResult> insertBoard(@LoginCheck@Schema(hidden = true) Member member, @Valid ReqBoardInsert reqData){
 		ResResult result=boardSRV.boardInsert(reqData,member);
 		
 		

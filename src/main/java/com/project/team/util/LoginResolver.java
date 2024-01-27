@@ -6,6 +6,7 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
+import org.webjars.NotFoundException;
 
 import com.project.team.entity.Member;
 import com.project.team.entity.MemberRepository;
@@ -35,7 +36,7 @@ public class LoginResolver implements HandlerMethodArgumentResolver{
         Long memberSid=(Long)session.getAttribute("member_sid");
         Member findMember= memberRepo.findById(memberSid).orElse(null);
         if(findMember == null) {
-        	throw new RuntimeException("로그인 세션에 해당하는 유저 정보가 없습니다");
+        	throw new NotFoundException("로그인 세션에 해당하는 유저 정보가 없습니다");
         }
         return findMember;
     }

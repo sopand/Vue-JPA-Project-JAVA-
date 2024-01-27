@@ -3,14 +3,19 @@ package com.project.team.exception;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class ErrorResponse {
 	
 	private String message;
@@ -33,11 +38,21 @@ public class ErrorResponse {
         return new ErrorResponse(code);
     }
 
+
     public static ErrorResponse of(final ErrorCode code, final BindingResult bindingResult) {
         return new ErrorResponse(code, FieldError.of(bindingResult));
     }
 	
-	
+    public static ResponseEntity<ErrorResponse> toResponseEntity(ErrorCode e){
+        return ResponseEntity
+                .status(e.getStatus().value())
+                .body(ErrorResponse.builder()
+                		.status(e.getStatus().value())
+                        .message(e.getMessage())
+                        .build());
+    }
+    
+    // Valid 에러감지용
 	@Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class FieldError {
