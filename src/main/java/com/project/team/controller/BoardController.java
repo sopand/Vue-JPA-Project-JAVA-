@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +18,6 @@ import com.project.team.res.ResResult;
 import com.project.team.service.BoardService;
 import com.project.team.util.LoginCheck;
 
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -45,12 +45,10 @@ public class BoardController {
 	
 	
 	
-	@PostMapping(value="/create")
-	public ResponseEntity<ResResult> insertBoard(@LoginCheck@Schema(hidden = true) Member member, @Valid ReqBoardInsert reqData){
-		ResResult result=boardSRV.boardInsert(reqData,member);
-		
-		
-		return ResponseEntity.ok(result);
+	@PostMapping(value = "/create")
+	public ResponseEntity<ResResult> insertBoard(@Valid@RequestBody ReqBoardInsert reqData,@LoginCheck @Schema(hidden = true) Member member) {
+	    ResResult result = boardSRV.boardInsert(reqData, member);
+	    return ResponseEntity.ok(result);
 	}
 
 }

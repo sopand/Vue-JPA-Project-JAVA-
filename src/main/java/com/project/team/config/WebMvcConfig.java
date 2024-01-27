@@ -15,10 +15,10 @@ import com.project.team.util.LoginResolver;
 public class WebMvcConfig implements WebMvcConfigurer{
 	
 	@Autowired
-    private LoginResolver memberSidResolver;
+    private LoginResolver loginResolver;
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(memberSidResolver);
+        resolvers.add(loginResolver);
     }
 }

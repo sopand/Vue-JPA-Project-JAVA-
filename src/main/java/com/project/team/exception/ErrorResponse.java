@@ -58,10 +58,12 @@ public class ErrorResponse {
     public static class FieldError {
         private String field;
         private String value;
+        private String message;
 
-        private FieldError(final String field, final String value) {
+        private FieldError(final String field, final String value,final String message) {
             this.field = field;
             this.value = value;
+            this.message=message;
         }
 
         private static List<FieldError> of(final BindingResult bindingResult) {
@@ -69,7 +71,8 @@ public class ErrorResponse {
             return fieldErrors.stream()
                     .map(error -> new FieldError(
                             error.getField(),
-                            error.getRejectedValue() == null ? "" : error.getRejectedValue().toString()))
+                            error.getRejectedValue() == null ? "" : error.getRejectedValue().toString(),
+                    		error.getDefaultMessage()))
                     .collect(Collectors.toList());
         }
     }

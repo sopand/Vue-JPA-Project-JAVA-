@@ -14,6 +14,8 @@ import com.project.team.entity.Board;
 import com.project.team.entity.BoardRepository;
 import com.project.team.entity.Member;
 import com.project.team.entity.MemberRepository;
+import com.project.team.exception.CustomException;
+import com.project.team.exception.ErrorCode;
 import com.project.team.req.board.ReqBoardInsert;
 import com.project.team.req.board.ReqImageUpload;
 import com.project.team.res.ResResult;
@@ -49,7 +51,7 @@ public class BoardService {
 		boardRepo.save(newBoard);
 
 		if (newBoard.getBoardSid() == null) {
-			return ResResult.builder().success(false).message("게시물 등록 실패").build();
+			throw new CustomException(ErrorCode.DATA_INSERT_FAILED);
 		}
 		return ResResult.builder().success(true).message("게시물 등록 성공").build();
 
