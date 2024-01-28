@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.project.team.entity.Board;
 import com.project.team.entity.BoardRepository;
 import com.project.team.entity.Member;
@@ -29,23 +31,42 @@ import lombok.RequiredArgsConstructor;
 public class BoardService {
 	private final BoardRepository boardRepo;
 
+	private final AmazonS3Client amazonS3;
+
 	private final MemberRepository memberRepo;
 
-	@Value("${upload.directory}")
+	@Value("${upload.url}")
+	private String UPLOAD_URL;
+
+	@Value("${cloud.aws.s3.bucket}")
+	private String bucketName;
+
+	@Value("${upload.dir}")
 	private String UPLOAD_DIR;
+
+	private ObjectMetadata getObjectMetadata(MultipartFile file) {
+		ObjectMetadata objectMetadata = new ObjectMetadata();
+		objectMetadata.setContentType(file.getContentType());
+		objectMetadata.setContentLength(file.getSize());
+		return objectMetadata;
+	}
+
+	private String generateFileName(MultipartFile file) {
+		return UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
+	}
 
 	@Transactional
 	public String imageUpload(ReqImageUpload reqData) throws IOException {
-		String fileName = UUID.randomUUID().toString() + "_" + reqData.getUploadFile().getOriginalFilename();
-		Path filePath = Path.of(UPLOAD_DIR + fileName);
-		Files.copy(reqData.getUploadFile().getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-		String imageUrl = "/api/image/" + fileName;
+		String bucketDir = bucketName + UPLOAD_DIR;
+		String dirUrl = bucketName + UPLOAD_DIR + "/";
+		String fileName = generateFileName(reqData.getUploadFile());
 
-		return imageUrl;
+		amazonS3.putObject(bucketDir, fileName, reqData.getUploadFile().getInputStream(), getObjectMetadata(reqData.getUploadFile()));
+		return dirUrl + fileName;
 	}
 
 	public ResResult boardInsert(ReqBoardInsert reqData, Member member) {
-		
+
 		Board newBoard = Board.builder().category(reqData.getCategory()).title(reqData.getTitle())
 				.content(reqData.getContent()).member(member).delYn(FlagYN.N).build();
 		boardRepo.save(newBoard);
