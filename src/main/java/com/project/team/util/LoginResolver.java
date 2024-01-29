@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
 public class LoginResolver implements HandlerMethodArgumentResolver {
+	
 	private final MemberRepository memberRepo;
 
 	@Override

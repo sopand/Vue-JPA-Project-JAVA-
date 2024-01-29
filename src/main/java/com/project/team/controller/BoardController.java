@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,21 +30,22 @@ public class BoardController {
 	
 	private final BoardService boardSRV;
 	
-	@PostMapping(value="/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ResResult> imageUpload( @ModelAttribute ReqImageUpload reqData) throws IOException{
-		String url=boardSRV.imageUpload(reqData);
-		ResResult result=ResResult.builder()
-				.success(true)
-				.data(url)
-				.message("이미지 업로드 완료")
-				.build();
-		return ResponseEntity.ok(result);
-	}
-	
-	
+//	@PostMapping(value="/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+//	public ResponseEntity<ResResult> imageUpload(@ModelAttribute ReqImageUpload reqData) throws IOException{
+//		
+//		String url=boardSRV.imageUpload(reqData);
+//		
+//		ResResult result=ResResult.builder()
+//				.success(true)
+//				.data(url)
+//				.message("이미지 업로드 완료")
+//				.build();
+//		
+//		return ResponseEntity.ok(result);
+//	}
 	
 	@PostMapping(value = "/create")
-	public ResponseEntity<ResResult> insertBoard(@Valid@RequestBody ReqBoardInsert reqData,@LoginCheck @Schema(hidden = true) Member member) {
+	public ResponseEntity<ResResult> insertBoard(@Valid@RequestBody ReqBoardInsert reqData,@LoginCheck @Schema(hidden = true) Member member) throws Exception {
 	    ResResult result = boardSRV.boardInsert(reqData, member);
 	    return ResponseEntity.ok(result);
 	}

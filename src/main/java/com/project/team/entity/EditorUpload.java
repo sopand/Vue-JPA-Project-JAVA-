@@ -34,5 +34,7 @@ public class EditorUpload extends BaseTimeEntity {
 	@Column(name = "file_name")
 	private String fileName;
 	
+	@Column(name = "path_url")
+	private String pathUrl;
 
 }
