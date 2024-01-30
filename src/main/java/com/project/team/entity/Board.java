@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -24,34 +25,29 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class Board extends BaseTimeEntity{
-	
+public class Board extends BaseTimeEntity {
+
 	@Column(name = "board_sid")
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long boardSid;
-	
+
 	private String category;
-	
-	@ManyToOne
+
+	@ManyToOne // JOIN
 	@JoinColumn(name = "member_sid")
 	private Member member;
-	
+
 	private String title;
-	
+
 	private String content;
-	
+
 	@Column(name = "del_yn")
 	@Enumerated(EnumType.STRING)
 	private FlagYN delYn;
-	
-	
-	
-	
+
 	public void contentImage(String content) {
-		this.content=content;
+		this.content = content;
 	}
-	
-	
 
 }

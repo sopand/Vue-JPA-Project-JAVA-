@@ -1,5 +1,7 @@
 package com.project.team.entity;
 
+import java.util.List;
+
 import com.project.team.util.FlagYN;
 
 import jakarta.persistence.Column;
@@ -9,6 +11,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -27,6 +32,7 @@ public class Member extends BaseTimeEntity{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="member_sid")
 	private Long memberSid;
+	
 	
 	private String email;
 	

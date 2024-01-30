@@ -28,17 +28,14 @@ public class UploadService {
 	@Value("${cloud.aws.s3.bucket}")
 	private String bucketName;
 
-	@Value("${upload.dir}")
+	@Value("${cloud.aws.s3.directory}")
 	private String UPLOAD_DIR;
-
-	@Value("${cloud.aws.s3.folder}")
-	private String FOLDER;
 	
 	@Transactional
 	public EditorUpload addUploadFile(byte[] byteArray, Board board) throws Exception {
 
 		String fileName = UUID.randomUUID().toString().replace("-", "");
-		String rpath = FOLDER + "/" + fileName;
+		String rpath = UPLOAD_DIR + "/" + fileName;
 
 		amazonS3.putObject(bucketName, rpath, new ByteArrayInputStream(byteArray), null);
 
