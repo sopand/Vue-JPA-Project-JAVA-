@@ -13,6 +13,8 @@ public class Utils {
 	/** 랜덤코드(Utils.getRandom) 인덱스 0 */
 	public static final Integer RANDOM_ONLY_NUMBER = 0;
 	
+	
+	/* UI에서 넘어온 - Quill Editor 이미지 저장*/
 	public static String editorImageUpload(UploadService srvUpload,String content,Board board)
 			throws Exception {
 		StringBuffer desc = new StringBuffer();
@@ -23,18 +25,15 @@ public class Utils {
 
 		while (true) {
 			int start = strProc.indexOf("data:image");
-			System.out.println("스타트 : "+start);
 			if (start < 0)
 				break;
 			
 			strPrev = strProc.substring(nStart, start);
-			System.out.println("PREV 값 : "+strPrev);
 			desc.append(strPrev);
 
 			strProc = strProc.substring(start, strProc.length());
 			int end = strProc.indexOf("\"/>");
 			start = strProc.indexOf(",");
-				System.out.println("체크하기"+strProc.substring(start + 1, end));
 			byte[] decodedBytes = Base64.getDecoder().decode(strProc.substring(start + 1, end));
 			EditorUpload file = srvUpload.addUploadFile(decodedBytes,board);
 

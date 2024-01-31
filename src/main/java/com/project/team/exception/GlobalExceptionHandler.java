@@ -5,6 +5,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.project.team.enums.ErrorCode;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 	

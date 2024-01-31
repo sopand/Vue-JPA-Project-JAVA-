@@ -22,12 +22,10 @@ public class BaseTimeEntity {
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "create_date")
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime createDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@UpdateTimestamp
 	@Column(name = "update_date")
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime updateDate;
 }

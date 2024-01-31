@@ -1,4 +1,4 @@
-package com.project.team.util;
+package com.project.team.enums;
 
 public enum FlagYN {
 

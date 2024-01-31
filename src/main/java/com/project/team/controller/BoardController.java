@@ -7,12 +7,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.team.entity.Member;
 import com.project.team.req.board.ReqBoardInsert;
+import com.project.team.req.board.ReqModifyBoard;
 import com.project.team.res.ResResult;
 import com.project.team.res.board.ResDetailBoard;
 import com.project.team.res.board.ResSelectBoard;
@@ -48,9 +50,13 @@ public class BoardController {
 	@GetMapping(value="/details/{board_sid}")
 	public ResponseEntity<ResDetailBoard> detailBoard(@PathVariable(value="board_sid") Long board_sid){
 		ResDetailBoard result=boardSRV.detailBoard(board_sid);
-		
 		return ResponseEntity.ok(result);
 		
+	}
+	@PutMapping(value="/modify")
+	public ResponseEntity<ResResult> modifyBoard(@LoginCheck @Schema(hidden = true) Member member,@RequestBody ReqModifyBoard reqData) throws Exception{
+		ResResult result=boardSRV.modifyBoard(reqData, member);
+		return ResponseEntity.ok(result);
 	}
 
 }

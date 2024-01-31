@@ -1,5 +1,7 @@
 package com.project.team.exception;
 
+import com.project.team.enums.ErrorCode;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

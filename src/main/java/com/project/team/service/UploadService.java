@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.project.team.entity.Board;
-import com.project.team.entity.EditorRepository;
 import com.project.team.entity.EditorUpload;
+import com.project.team.repository.EditorRepository;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

@@ -2,7 +2,7 @@ package com.project.team.entity;
 
 import java.util.List;
 
-import com.project.team.util.FlagYN;
+import com.project.team.enums.FlagYN;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

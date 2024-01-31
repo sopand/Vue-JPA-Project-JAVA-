@@ -1,6 +1,6 @@
 package com.project.team.entity;
 
-import com.project.team.util.FlagYN;
+import com.project.team.enums.FlagYN;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -48,6 +48,11 @@ public class Board extends BaseTimeEntity {
 
 	public void contentImage(String content) {
 		this.content = content;
+	}
+	
+	public void modifyBoard(String title,String content) {
+		this.title=title;
+		this.content=content;
 	}
 
 }

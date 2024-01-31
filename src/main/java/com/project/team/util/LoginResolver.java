@@ -9,9 +9,9 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import org.webjars.NotFoundException;
 
 import com.project.team.entity.Member;
-import com.project.team.entity.MemberRepository;
+import com.project.team.enums.ErrorCode;
 import com.project.team.exception.CustomException;
-import com.project.team.exception.ErrorCode;
+import com.project.team.repository.MemberRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

@@ -6,22 +6,22 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.team.entity.Board;
-import com.project.team.entity.BoardRepository;
 import com.project.team.entity.Member;
-import com.project.team.entity.MemberRepository;
+import com.project.team.enums.ErrorCode;
+import com.project.team.enums.FlagYN;
 import com.project.team.exception.CustomException;
-import com.project.team.exception.ErrorCode;
+import com.project.team.repository.BoardRepository;
+import com.project.team.repository.MemberRepository;
 import com.project.team.req.board.ReqBoardInsert;
+import com.project.team.req.board.ReqModifyBoard;
 import com.project.team.res.ResResult;
 import com.project.team.res.board.ResDetailBoard;
 import com.project.team.res.board.ResSelectBoard;
-import com.project.team.res.board.ResSelectBoard.DTO;
-import com.project.team.util.FlagYN;
 import com.project.team.util.Utils;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -29,8 +29,6 @@ import lombok.RequiredArgsConstructor;
 public class BoardService {
 
 	private final BoardRepository boardRepo;
-
-	private final MemberRepository memberRepo;
 
 	private final UploadService upload;
 
@@ -51,7 +49,7 @@ public class BoardService {
 		return ResResult.builder().success(true).message("게시물 등록 성공").build();
 
 	}
-
+	@Transactional(readOnly = true)
 	public ResSelectBoard selectBoard(Pageable page, String category) {
 		Page<Board> pagingList = boardRepo.findAllByDelYnAndCategory(FlagYN.N, category, page);
 		int nowPage = pagingList.getPageable().getPageNumber() + 1;
@@ -75,6 +73,7 @@ public class BoardService {
 				.build();
 	}
 	
+	@Transactional(readOnly = true)
 	public ResDetailBoard detailBoard(Long board_sid) {
 	
 		Board getBoard=boardRepo.findById(board_sid).orElseThrow(() ->new CustomException(ErrorCode.BOARD_NOT_FOUND));
@@ -89,8 +88,25 @@ public class BoardService {
 				.createDate(getBoard.getCreateDate())
 				.updateDate(getBoard.getUpdateDate())
 				.build();
+	}
+	
+	@Transactional
+	public ResResult modifyBoard(ReqModifyBoard reqData,Member member) throws Exception {
+		Board getBoard=boardRepo.findById(reqData.getBoardSid()).orElseThrow(() ->new CustomException(ErrorCode.BOARD_NOT_FOUND));
+		if(!member.getMemberSid().equals(getBoard.getMember().getMemberSid())) {
+			throw new CustomException(ErrorCode.SID_DONT_MATCH);
+		}
 		
 		
+		String content = Utils.editorImageUpload(upload, reqData.getContent(), getBoard);
+		
+		
+		getBoard.modifyBoard(reqData.getTitle(),content);
+		
+		return ResResult.builder()
+				.success(true)
+				.message("게시글 수정에 성공하였습니다.")
+				.build();
 	}
 
 }

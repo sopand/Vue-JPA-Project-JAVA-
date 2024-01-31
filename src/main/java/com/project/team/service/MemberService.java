@@ -5,11 +5,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.team.entity.Member;
-import com.project.team.entity.MemberRepository;
+import com.project.team.enums.FlagYN;
+import com.project.team.repository.MemberRepository;
 import com.project.team.req.member.ReqMemberJoin;
 import com.project.team.req.member.ReqMemberLogin;
 import com.project.team.res.ResResult;
-import com.project.team.util.FlagYN;
 
 import lombok.RequiredArgsConstructor;
 
