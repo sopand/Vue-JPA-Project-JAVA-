@@ -47,7 +47,7 @@ public class BoardController {
 		return ResponseEntity.ok(result);
 	}
 	
-	@GetMapping(value="/details/{board_sid}")
+	@GetMapping(value="/detail/{board_sid}")
 	public ResponseEntity<ResDetailBoard> detailBoard(@PathVariable(value="board_sid") Long board_sid){
 		ResDetailBoard result=boardSRV.detailBoard(board_sid);
 		return ResponseEntity.ok(result);
