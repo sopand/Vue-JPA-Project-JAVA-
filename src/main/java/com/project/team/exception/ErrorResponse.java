@@ -31,7 +31,10 @@ public class ErrorResponse {
     }
 
     private ErrorResponse(final ErrorCode code, final List<FieldError> errors) {
-        this.message = code.getMessage();
+        this.message = code.getMessage() +"\n";
+        for(FieldError error:errors) {
+        	this.message += error.getMessage()+"\n";
+        }
         this.status = code.getStatus().value();
         this.errors = errors;
     }
