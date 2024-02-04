@@ -3,7 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '3.2.1'
 	id 'io.spring.dependency-management' version '1.1.4'
 	//querydsl 추가
-	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+	//id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 group = 'com.project'
@@ -49,39 +49,31 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	// QueryDSL 설정
-	implementation "com.querydsl:querydsl-jpa:5.0.0:jakarta"
-	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
 	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
 	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 	// -- QueryDSL ---
 }
-// queryDSL 추가 : QueryDSL 빌드 옵션
-def generated = 'src/main/generated'
 
-querydsl {
-	jpa = true
-	querydslSourcesDir = generated
-}
-sourceSets {
-	main.java.srcDir generated
-}
-// complieQuerydsl Task에 clean 동작 추가
-tasks.compileQuerydsl.dependsOn(clean);
-
-compileQuerydsl{
-	options.annotationProcessorPath = configurations.querydsl
-}
-
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
-	querydsl.extendsFrom compileClasspath
-}
-// 여기까지
 tasks.withType(JavaCompile) {
     options.compilerArgs << '-parameters'
 }
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+// QueryDSL
+def querydslDir = "src/main/generated/querydsl"
+
+sourceSets {
+	main.java.srcDirs += [ querydslDir ]
+}
+
+tasks.withType(JavaCompile) {
+	options.annotationProcessorGeneratedSourcesDirectory = file(querydslDir)
+}
+
+clean.doLast {
+	file(querydslDir).deleteDir()
 }
