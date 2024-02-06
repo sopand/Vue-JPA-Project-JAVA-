@@ -6,6 +6,9 @@ import vue from '@vitejs/plugin-vue';
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [vue()],
+	build: {
+		outDir: '../src/main/resources/static', // 정적 파일의 출력 경로를 설정합니다.
+	},
 	server: {
 		port: 3000,
 		proxy: {
